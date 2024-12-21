@@ -112,3 +112,78 @@ POST /users/login
 ### Notes
 - Email must be a valid email format
 - Password must be at least 6 characters long
+
+## Get User Profile
+Endpoint to retrieve the authenticated user's profile information.
+
+### Endpoint
+```
+GET /users/profile
+```
+
+### Headers
+| Field          | Value                 | Required |
+|----------------|----------------------|-----------|
+| Authorization  | Bearer {token}       | Yes       |
+
+### Response Status Codes
+| Status Code | Description                                    |
+|------------|------------------------------------------------|
+| 200        | Success                                         |
+| 401        | Unauthorized - Invalid or missing token         |
+| 500        | Internal Server Error                           |
+
+### Success Response Example
+```json
+{
+  "userId": "12345",
+  "name": "John Doe",
+  "email": "john@example.com",
+  "phone": "1234567890"
+}
+```
+
+### Error Response Example
+```json
+{
+  "message": "Unauthorized access"
+}
+```
+
+## Logout User
+Endpoint to logout the current user and invalidate their token.
+
+### Endpoint
+```
+GET /users/logout
+```
+
+### Headers
+| Field          | Value                 | Required |
+|----------------|----------------------|-----------|
+| Authorization  | Bearer {token}       | Yes       |
+
+### Response Status Codes
+| Status Code | Description                                    |
+|------------|------------------------------------------------|
+| 200        | Successfully logged out                         |
+| 401        | Unauthorized - Invalid or missing token         |
+| 500        | Internal Server Error                           |
+
+### Success Response Example
+```json
+{
+  "message": "Logged out successfully"
+}
+```
+
+### Error Response Example
+```json
+{
+  "message": "Unauthorized access"
+}
+```
+
+### Notes
+- The token will be blacklisted after logout
+- Subsequent requests with the same token will be rejected

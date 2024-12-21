@@ -1,8 +1,11 @@
 const userModel = require('../models/user.model.js');
 const userServices = require('../services/user.service.js');
 const { validationResult } = require('express-validator');
+const blakListTokenModel=require('../models/blacklistToken.model.js');
 
 module.exports.registerUser = async function (req, res, next) {
+    console.log(" in registrationreq is",req);
+    console.log(" in registration req.body is",req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -24,6 +27,8 @@ module.exports.registerUser = async function (req, res, next) {
 
 
 module.exports.loginUser =async function(req,res,next){
+    console.log(" in login is",req);
+    console.log(" in login req.body is",req.body);
     const errors = validationResult(req);
     if(!errors.isEmpty()){
         return res.status(400).json({errors:errors.array()});
@@ -41,5 +46,18 @@ module.exports.loginUser =async function(req,res,next){
         return res.status(401).json({message:"Invalid email or password"});
     }
     const token=user.generateAuthToken();
+    res.cookie('token',token);
     res.status(200).json({token,user});
+}
+
+module.exports.getUserprofile=async function (req,res,next){
+    res.status(200).json(req.user);
+}
+
+module.exports.logoutUser=async function(req,res,next){
+    res.clearCookie('token');
+    const token=req.cookies.token || req.headers.authorization.split(' ')[1];
+    console.log("upcoming error is ",token);
+    await blakListTokenModel.create({token});
+    res.status(200).json({message:"Logged out successfully"}); 
 }

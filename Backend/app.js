@@ -2,10 +2,11 @@ const express =require('express');
 const dotenv=require('dotenv');
 const cors=require('cors');
 const app =express();
+const cookieparser=require('cookie-parser');
 const connectDb =require('./db/db.js');
 dotenv.config();
 app.use(cors());
-
+app.use(cookieparser());
 const userRoutes =require('./routes/user.routes.js');
 
 app.get('/',function(req,res){
