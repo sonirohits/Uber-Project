@@ -8,6 +8,7 @@ dotenv.config();
 app.use(cors());
 app.use(cookieparser());
 const userRoutes =require('./routes/user.routes.js');
+const captainRoutes=require('./routes/captain.routes.js');
 
 app.get('/',function(req,res){
     res.send('working fine');
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
 app.use('/users',userRoutes);
+app.use('/captains',captainRoutes);
 connectDb();
 
 module.exports=app;

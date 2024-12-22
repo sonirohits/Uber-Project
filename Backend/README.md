@@ -187,3 +187,92 @@ GET /users/logout
 ### Notes
 - The token will be blacklisted after logout
 - Subsequent requests with the same token will be rejected
+
+# Captain Registration API Documentation
+
+## Register Captain
+Endpoint to register a new captain in the system.
+
+### Endpoint
+```
+POST /captains/register
+```
+
+### Request Body
+| Field              | Type     | Description                          | Required |
+|-------------------|----------|--------------------------------------|----------|
+| fullname.firstname| string   | First name of the captain            | Yes      |
+| fullname.lastname | string   | Last name of the captain             | Yes      |
+| email            | string   | Captain's email address              | Yes      |
+| password         | string   | Captain's password                   | Yes      |
+| vehicle.color    | string   | Vehicle color                        | Yes      |
+| vehicle.plate    | string   | Vehicle plate number                 | Yes      |
+| vehicle.capacity | number   | Vehicle passenger capacity           | Yes      |
+| vehicle.vehicleType| string  | Type of vehicle (car/motorcycle/auto)| Yes      |
+
+### Example Request
+```json
+{
+  "fullname": {
+    "firstname": "John",
+    "lastname": "Doe"
+  },
+  "email": "john.captain@example.com",
+  "password": "securepass",
+  "vehicle": {
+    "color": "black",
+    "plate": "ABC123",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}
+```
+
+### Response Status Codes
+| Status Code | Description                                           |
+|-------------|-------------------------------------------------------|
+| 201         | Captain successfully registered                        |
+| 400         | Bad Request - Missing or invalid required fields       |
+| 409         | Conflict - Email already exists                        |
+| 500         | Internal Server Error                                  |
+
+### Success Response Example
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "captain": {
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john.captain@example.com",
+    "vehicle": {
+      "color": "black",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+  }
+}
+```
+
+### Error Response Example
+```json
+{
+  "errors": [
+    {
+      "msg": "First name must be at least 3 characters long",
+      "param": "fullname.firstname"
+    }
+  ]
+}
+```
+
+### Validation Rules
+- First name must be at least 3 characters long
+- Email must be a valid email format
+- Password must be at least 5 characters long
+- Vehicle color must be at least 3 characters long
+- Vehicle plate must be at least 3 characters long
+- Vehicle capacity must be at least 1
+- Vehicle type must be one of: car, motorcycle, auto
