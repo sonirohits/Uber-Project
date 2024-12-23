@@ -276,3 +276,165 @@ POST /captains/register
 - Vehicle plate must be at least 3 characters long
 - Vehicle capacity must be at least 1
 - Vehicle type must be one of: car, motorcycle, auto
+
+# Captain API Routes Documentation
+
+## Register Captain (`POST /captains/register`)
+
+### Request Body
+```json
+{
+  "fullname": {
+    "firstname": "John", // minimum 3 characters
+    "lastname": "Doe"    // minimum 3 characters
+  },
+  "email": "captain@example.com",    // must be valid email format
+  "password": "secret123",           // minimum 5 characters
+  "vehicle": {
+    "color": "Black",               // minimum 3 characters
+    "plate": "ABC123",              // minimum 3 characters
+    "capacity": 4,                  // minimum value: 1
+    "vehicleType": "car"           // must be: "car", "motorcycle", or "auto"
+  }
+}
+```
+
+### Response (201 Created)
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIs...",  // JWT token valid for 24 hours
+  "captain": {
+    "_id": "60d5ecb8b5c9c62b3c7c1b9e",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "captain@example.com",
+    "vehicle": {
+      "color": "Black",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "car"
+    },
+    "status": "inactive",         // default status
+    "location": {
+      "lat": null,
+      "lng": null
+    }
+  }
+}
+```
+
+## Login Captain (`POST /captains/login`)
+
+### Request Body
+```json
+{
+  "email": "captain@example.com",    // must be valid email
+  "password": "secret123"           // minimum 5 characters
+}
+```
+
+### Response (200 OK)
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIs...", // JWT token valid for 24 hours
+  "captain": {
+    "_id": "60d5ecb8b5c9c62b3c7c1b9e",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "captain@example.com",
+    "vehicle": {
+      "color": "Black",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "car"
+    },
+    "status": "inactive",
+    "location": {
+      "lat": null,
+      "lng": null
+    }
+  }
+}
+```
+
+## Get Captain Profile (`GET /captains/profile`)
+
+### Headers
+```json
+{
+  "Authorization": "Bearer eyJhbGciOiJIUzI1NiIs..."  // JWT token required
+}
+```
+
+### Response (200 OK)
+```json
+{
+  "captain": {
+    "_id": "60d5ecb8b5c9c62b3c7c1b9e",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "captain@example.com",
+    "vehicle": {
+      "color": "Black",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "car"
+    },
+    "status": "inactive",
+    "location": {
+      "lat": null,
+      "lng": null
+    }
+  }
+}
+```
+
+## Logout Captain (`GET /captains/logout`)
+
+### Headers
+```json
+{
+  "Authorization": "Bearer eyJhbGciOiJIUzI1NiIs..."  // JWT token required
+}
+```
+
+### Response (200 OK)
+```json
+{
+  "message": "Logout successfully"
+}
+```
+
+### Error Responses
+
+#### Validation Error (400 Bad Request)
+```json
+{
+  "errors": [
+    {
+      "msg": "First name must be at least 3 characters long",
+      "param": "fullname.firstname"
+    }
+  ]
+}
+```
+
+#### Authentication Error (401 Unauthorized)
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+#### Server Error (500 Internal Server Error)
+```json
+{
+  "error": "Internal server error message"
+}
+```
