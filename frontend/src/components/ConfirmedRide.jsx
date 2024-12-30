@@ -45,7 +45,7 @@ const ConfirmedRide = (props) => {
             </div>
           </div>
         </div>
-        <button className="w-full bg-green-600 font-semibold p-2 rounded-lg  mt-5 cursor-pointer"
+        <button className="w-full bg-green-600 font-semibold p-2 rounded-lg  mt-5 cursor-pointer text-white"
         onClick={
           function(){
             props.setvehicleFound(true)
