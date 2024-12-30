@@ -4,6 +4,7 @@ const jwt=require('jsonwebtoken');
 const blacklistTokenModel = require('../models/blacklistToken.model.js');
 const captainModel=require('../models/captain.model.js');
 module.exports.authUser=async function(req,res,next){
+//     console.log("in auth middwware")
 //     console.log(" in auth middleware is",req);
 //     console.log(" in auth middleware req.body is",req.body);
 // console.log('token header is',req.headers.authorization);
@@ -17,12 +18,14 @@ if(!token){
       return res.status(401).json({message:"Unauthorized"});
   }
 try{
+    // console.log("in try logut");
     const decoded=jwt.verify(token,process.env.JWT_SECRET);
     const user=await userModel.findById(decoded._id); 
     if(!user){
         return res.status(401).json({message:"Unauthorized"});
     }
     req.user=user;
+    // console.log('user is in logout',user);
     return next();
 }
 catch(err){

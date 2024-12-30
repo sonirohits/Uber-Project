@@ -4,8 +4,8 @@ const { validationResult } = require('express-validator');
 const blakListTokenModel=require('../models/blacklistToken.model.js');
 
 module.exports.registerUser = async function (req, res, next) {
-    console.log(" in registrationreq is",req);
-    console.log(" in registration req.body is",req.body);
+    // console.log(" in registrationreq is",req);
+    // console.log(" in registration req.body is",req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -31,8 +31,8 @@ module.exports.registerUser = async function (req, res, next) {
 
 
 module.exports.loginUser =async function(req,res,next){
-    console.log(" in login is",req);
-    console.log(" in login req.body is",req.body);
+    // console.log(" in login is",req);
+    // console.log(" in login req.body is",req.body);
     const errors = validationResult(req);
     if(!errors.isEmpty()){
         return res.status(400).json({errors:errors.array()});
