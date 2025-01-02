@@ -1,42 +1,28 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import CaptainDetails from "../components/CaptainDetails";
-import RidePopUp from "../components/RidePopUp";
 import { useState, useRef } from "react";
 import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import ConfirmRidePopUp from "../components/ConfirmRidePopUp";
-const CaptainHome = () => {
-  const [ridePopupPanel, setRidePopupPanel] = useState(true);
-  const ridePopupPanelRef = useRef(null);
-  const [ConfirmRidePopupPanel, setConfirmRidePopupPanel] = useState(false);
-  const ConfirmRidePopupPanelRef = useRef(null);
-
-  useGSAP(function () {
-    if (ridePopupPanel) {
-        gsap.to(ridePopupPanelRef.current, {
-            transform: 'translateY(0)'
-        })
-    } else {
-        gsap.to(ridePopupPanelRef.current, {
-            transform: 'translateY(100%)'
-        })
-    }
-}, [ ridePopupPanel ])
-
-useGSAP(function () {
-    if (ConfirmRidePopupPanel) {
-        gsap.to(ConfirmRidePopupPanelRef.current, {
-            transform: 'translateY(0)'
-        })
-    } else {
-        gsap.to(ConfirmRidePopupPanelRef.current, {
-            transform: 'translateY(100%)'
-        })
-    }
-}, [ ConfirmRidePopupPanel ])
+import { gsap } from "gsap";
+import FinishRide from "../components/FinishRide";
+const CaptainRiding = () => {
+   const[finishRidePanel, setFinishRidePanel] = useState(false);
+   const finishRidePanelRef =useRef(null);
+  useGSAP(
+    function () {
+      if (finishRidePanel) {
+        gsap.to(finishRidePanelRef.current, {
+          transform: "translateY(0)",
+        });
+      } else {
+        gsap.to(finishRidePanelRef.current, {
+          transform: "translateY(100%)",
+        });
+      }
+    },
+    [finishRidePanel]
+  );
   return (
-    <div className="h-screen overflow-hidden">
+    <div className="h-screen  ">
       <div className=" fixed p-6 top-0 flex items-center justify-between w-screen">
         <img
           className="w-16"
@@ -51,37 +37,37 @@ useGSAP(function () {
         </Link>
       </div>
 
-      <div className="h-3/5">
+      <div className="h-4/5">
         <img
           className="h-full w-full object-cover"
           src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif"
           alt=""
         />
       </div>
-      <div className="h-2/5 p-6">
-        <CaptainDetails />
-      </div>
 
-      <div
-        ref={ridePopupPanelRef}
-        className="fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12"
-      >
-        <RidePopUp
-          setRidePopupPanel={setRidePopupPanel}
-          setConfirmRidePopupPanel={setConfirmRidePopupPanel}
-        />
+      <div className="h-1/5 p-6 bg-yellow-400  flex items-center justify-between relative" onClick={function(){
+        setFinishRidePanel(true);
+      }}>
+        <h5
+          className="p-1 text-cente flex items-center justify-center w-[93%] absolute top-0 "
+          onClick={function () {}}
+        >
+          <i className="text-3xl  text-gray-300 ri-arrow-up-wide-line"></i>
+        </h5>
+        <h4 className="text-xl font-semibold"> 4kM away</h4>
+        <button className="bg-green-600 text-white font-semibold p-3 px-10 rounded-lg">
+          Complete Ride
+        </button>
+        
       </div>
       <div
-        ref={ConfirmRidePopupPanelRef}
-        className="fixed w-full h-screen z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12"
-      >
-        <ConfirmRidePopUp
-          setConfirmRidePopupPanel={setConfirmRidePopupPanel}
-          setRidePopupPanel={setRidePopupPanel}
-        />
-      </div>
+          ref={finishRidePanelRef}
+          className="fixed w-full h-screen z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12"
+        >
+          <FinishRide finishRidePanel={finishRidePanel} setFinishRidePanel={setFinishRidePanel} />
+        </div>
     </div>
   );
 };
 
-export default CaptainHome;
+export default CaptainRiding;
