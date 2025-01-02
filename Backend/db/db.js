@@ -5,7 +5,7 @@ function connectDb(){
     .then(function(){
         console.log("connect to the db");
     }).catch(function(e){
-        console.log("error occured"); 
+        console.log("error occured",e); 
     })
 }
 
